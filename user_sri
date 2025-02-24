@@ -1,0 +1,2 @@
+useradd -m -g asateel -d /home/o.c.srinivas.mogulla o.c.srinivas.mogulla; echo 'o.c.srinivas.mogulla:4MT@dm!nddd021' | chpasswd
+useradd -m -g asateel -d /home/o.c.dhivakr.sathya o.c.dhivakr.sathya; echo 'o.c.dhivakr.sathya:4MT@dm!ngg021' | chpasswd

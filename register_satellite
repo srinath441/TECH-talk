@@ -1,0 +1,1 @@
+subscription-manager register --org="Default_Organization" --env="DEV/rhel8" --force --username=admin --password='4MT@dm!n021'

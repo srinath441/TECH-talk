@@ -1,0 +1,12 @@
+# users_vars.yml
+groups:
+  - name: "asateel"
+    gid: 54322
+
+users:
+  - username: "o.c.dhivakr.sathya"
+    password: "$1$1i3OgDbi$biwB8Dpr5iSNvVlUt2Qpv0"
+
+  - username: "o.c.srinivas.mogulla"
+    password: "$1$1i3OgDbi$biwB8Dpr5iSNvVlUt2Qpv0"
+

@@ -1,0 +1,56 @@
+---
+- name: Enroll managed server to Red Hat Satellite, update and reboot
+  hosts: all
+  become: yes
+  vars:
+    satellite_url: "http://satellite.dmt.gov.ae"
+    activation_key: "rhel8"
+    organization_id: "Default_Organization"
+    username: "admin"
+    password: "4MT@dm!n021"
+    environment: "DEV/rhel8"  # Ensure environment is set
+
+  tasks:
+    - name: Download katello-ca package
+      get_url:
+        url: "{{ satellite_url }}/pub/katello-ca-consumer-latest.noarch.rpm"
+        dest: /tmp/katello-ca-consumer-latest.noarch.rpm
+
+    - name: Install katello-ca package
+      yum:
+        name: /tmp/katello-ca-consumer-latest.noarch.rpm
+        state: present
+
+    - name: Check if the server is registered to Satellite
+      command: subscription-manager identity
+      register: subscription_status
+      failed_when: false
+      changed_when: false
+
+    - name: Register the server if not registered
+      command: >
+        subscription-manager register --org="Default_Organization" --env="DEV/rhel8" --force --username=admin --password='4MT@dm!n021'
+      when: subscription_status.rc != 0
+      register: registration_status
+      ignore_errors: yes
+
+    - name: Debugging registration result
+      debug:
+        msg: "Registration status: {{ registration_status }}"
+
+    - name: Clean up downloaded RPM
+      file:
+        path: /tmp/katello-ca-consumer-latest.noarch.rpm
+        state: absent
+
+    - name: Perform a yum update
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Reboot the system
+      reboot:
+        msg: "Rebooting after registration and update"
+        pre_reboot_delay: 10
+        post_reboot_delay: 30
+        test_command: whoami

@@ -1,0 +1,2 @@
+useradd -m -d /home/itc.monitoring itc.monitoring; echo "itc.monitoring:itc.monitoring@123" | chpasswd
+useradd -m -d /home/itc.stscan itc.stscan; echo "itc.stscan:itcstscan@123" | chpasswd

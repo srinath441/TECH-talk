@@ -1,0 +1,28 @@
+---
+- name: Create users and groups with specified UID, GID, and password from file
+  hosts: all
+  become: yes
+  vars_files:
+    - users_vars.yml
+  tasks:
+    - name: Debug groups variable
+      debug:
+        var: groups
+
+    - name: Ensure the group exists with specific GID
+      ansible.builtin.group:
+        name: "{{ group.name }}"
+        gid: "{{ group.gid }}"
+        state: present
+      loop: "{{ groups }}"
+      loop_control:
+        loop_var: group
+
+    - name: Ensure users exist with specific UID, GID, and password
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        group: "{{ item.group }}"
+        password: "{{ item.password }}"
+        state: present
+      loop: "{{ users }}"
+

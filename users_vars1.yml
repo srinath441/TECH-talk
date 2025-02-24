@@ -1,0 +1,14 @@
+# users_vars.yml
+users:
+  - username: "asateel"
+    uid: 54322
+    gid: 54322
+    password: "$1$elPjEi4l$o7qvM8xkVnjdY6y8dVC3O/"
+  - username: "o.v.ann.pricks"
+    uid: 54323
+    gid: 54322
+    password: "$1$1i3OgDbi$biwB8Dpr5iSNvVlUt2Qpv0"
+group:
+  name: "asateel"
+  gid: 54322
+

@@ -1,0 +1,27 @@
+---
+- name: Create users and group with specified UID, GID, and password from file
+  hosts: all
+  become: yes
+  vars_files:
+    - users_vars.yml
+  tasks:
+    - name: Ensure the group exists with specific GID
+      ansible.builtin.group:
+        name: "{{ groups[0].name }}"
+        gid: "{{ groups[0].gid }}"
+        state: present
+
+    - name: Ensure users exist with specific UID, GID, and password
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        group: "{{ groups[0].name }}"
+        password: "{{ item.password }}"
+        state: present
+      loop: "{{ users }}"
+
+    - name: Add Asateel user to sudoers file
+      ansible.builtin.copy:
+        dest: "/etc/sudoers.d/asateel"
+        content: "asateel ALL=(ALL) NOPASSWD: ALL"
+        mode: '0440'
+
